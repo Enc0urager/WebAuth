@@ -1,0 +1,156 @@
+spring:
+  mail:
+    host: localhost
+    port: 1025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+  docker:
+    compose:
+      enabled: false
+      file: ./docker-compose.yaml
+
+  application:
+    name: backend
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/backend_db
+    username: enco
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+server:
+  port: 8080
+  forward-headers-strategy: framework
+
+security:
+  jwt:
+    private-key: classpath:keys/private.pem
+    public-key: classpath:keys/public.pem
+    issuer: webauth
+    access-expiration: 900000
+    refresh-expiration: 604800000
+
+  refresh-token:
+    ttl-seconds: 604800
+    used-ttl-seconds: 604800
+
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:3000
+      - http://localhost:8080
+      - http://127.0.0.1:5173
+      - http://198.18.0.1:5173
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+    allowed-headers:
+      - Authorization
+      - Content-Type
+      - X-Requested-With
+      - Accept
+      - Origin
+      - Access-Control-Request-Method
+      - Access-Control-Request-Headers
+    exposed-headers:
+      - Authorization
+    allow-credentials: true
+    max-age: 3600
+
+  endpoints:
+    public:
+      - /auth/**
+      - /internal/minecraft/**
+
+  brute-force:
+    login:
+      by-username:
+        max-attempts: 40
+        window-seconds: 1800
+      by-ip:
+        max-attempts: 5
+        window-seconds: 600
+
+    verify:
+      by-email:
+        max-attempts: 8
+        window-seconds: 600
+      by-ip:
+        max-attempts: 20
+        window-seconds: 600
+
+  minecraft:
+    secret-header: X-Minecraft-Secret
+    secret-key: your-secret-key-here
+
+  rate-limit:
+    rules:
+      - path: /auth/login
+        methods: [ POST ]
+        limit: 10
+        window-seconds: 60
+
+      - path: /auth/register
+        methods: [ POST ]
+        limit: 5
+        window-seconds: 60
+
+      - path: /auth/verify
+        methods: [ POST ]
+        limit: 10
+        window-seconds: 300
+
+      - path: /auth/refresh
+        methods: [ POST ]
+        limit: 20
+        window-seconds: 60
+
+      - path: /user/me
+        methods: [ GET ]
+        limit: 60
+        window-seconds: 60
+
+      - path: /user/join-requests
+        methods: [ GET ]
+        limit: 60
+        window-seconds: 60
+
+      - path: /user/trusted-ips
+        methods: [ GET, POST ]
+        limit: 30
+        window-seconds: 60
+
+      - path: /user/trusted-ips/**
+        methods: [ DELETE ]
+        limit: 30
+        window-seconds: 60
+
+app:
+  email:
+    from: "no-reply@your-company.com"
+    subject: "Код для верификации"
+    text: "Ваш код: %s"
+    ttl-seconds: 600
