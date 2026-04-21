@@ -41,11 +41,11 @@ public class RefreshCookieService {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
-    public String extractCookie(HttpServletRequest request, String name) {
+    public String extractCookie(HttpServletRequest request) {
         if (request.getCookies() == null) return null;
 
         for (Cookie cookie : request.getCookies()) {
-            if (name.equals(cookie.getName())) {
+            if (properties.getName().equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }

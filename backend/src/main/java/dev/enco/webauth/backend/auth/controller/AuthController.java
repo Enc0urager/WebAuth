@@ -46,10 +46,11 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public AuthResponse refresh(@RequestBody RefreshRequest request,
+    public AuthResponse refresh(HttpServletRequest httpRequest,
                                 HttpServletResponse httpResponse
     ) {
-        GeneratedTokens tokens = authService.refresh(request);
+        String refreshToken = refreshCookieService.extractCookie(httpRequest);
+        GeneratedTokens tokens = authService.refresh(refreshToken);
         refreshCookieService.addRefreshCookie(httpResponse, tokens.refreshToken());
         return new AuthResponse(tokens.accessToken());
     }

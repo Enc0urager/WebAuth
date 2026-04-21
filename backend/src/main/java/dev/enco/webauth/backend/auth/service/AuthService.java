@@ -81,8 +81,8 @@ public class AuthService {
         return securityService.generateAuthTokens(user.getUsername());
     }
 
-    public GeneratedTokens refresh(RefreshRequest request) {
-        return securityService.refresh(request);
+    public GeneratedTokens refresh(String refreshToken) {
+        return securityService.refresh(refreshToken);
     }
 
     public void logout(String accessToken, String refreshToken) {

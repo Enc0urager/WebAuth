@@ -1,7 +1,5 @@
 package dev.enco.webauth.backend.security.service;
 
-import dev.enco.webauth.backend.auth.dto.AuthResponse;
-import dev.enco.webauth.backend.auth.dto.RefreshRequest;
 import dev.enco.webauth.backend.auth.exceptions.IncorrectPasswordException;
 import dev.enco.webauth.backend.security.exception.InvalidRefreshTokenException;
 import dev.enco.webauth.backend.security.model.GeneratedTokens;
@@ -39,8 +37,7 @@ public class SecurityService {
         return new GeneratedTokens(access, refresh);
     }
 
-    public GeneratedTokens refresh(RefreshRequest request) {
-        String token = request.refreshToken();
+    public GeneratedTokens refresh(String token) {
         String username = refreshTokenService.validate(token);
 
         if (username == null) {
