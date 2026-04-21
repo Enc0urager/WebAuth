@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
         @NotBlank(message = "Имя пользователя обязательно")
-        @Size(min = 4, max = 16, message = "Имя пользователя должно быть длиной от 3 до 32 символов")
+        @Size(min = 4, max = 16, message = "Имя пользователя должно иметь длинну от 4 до 16 символов")
         @Pattern(
                 regexp = "^[a-zA-Z0-9_]+$",
                 message = "Недопустимое имя пользователя"
