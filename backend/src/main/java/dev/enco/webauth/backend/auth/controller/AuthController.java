@@ -6,6 +6,7 @@ import dev.enco.webauth.backend.security.model.GeneratedTokens;
 import dev.enco.webauth.backend.security.service.RefreshCookieService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,12 +22,12 @@ public class AuthController {
     private final RefreshCookieService refreshCookieService;
 
     @PostMapping("/register")
-    public void register(@RequestBody RegisterRequest request) {
+    public void register(@Valid @RequestBody RegisterRequest request) {
         authService.register(request);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request,
+    public AuthResponse login(@Valid @RequestBody LoginRequest request,
                               HttpServletRequest httpRequest,
                               HttpServletResponse httpResponse
     ) {
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify")
-    public AuthResponse verify(@RequestBody VerifyEmailRequest request,
+    public AuthResponse verify(@Valid @RequestBody VerifyEmailRequest request,
                                HttpServletRequest httpRequest,
                                HttpServletResponse httpResponse
     ) {
@@ -44,15 +45,4 @@ public class AuthController {
         refreshCookieService.addRefreshCookie(httpResponse, tokens.refreshToken());
         return new AuthResponse(tokens.accessToken());
     }
-
-    @PostMapping("/refresh")
-    public AuthResponse refresh(HttpServletRequest httpRequest,
-                                HttpServletResponse httpResponse
-    ) {
-        String refreshToken = refreshCookieService.extractCookie(httpRequest);
-        GeneratedTokens tokens = authService.refresh(refreshToken);
-        refreshCookieService.addRefreshCookie(httpResponse, tokens.refreshToken());
-        return new AuthResponse(tokens.accessToken());
-    }
-
 }

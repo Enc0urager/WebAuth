@@ -12,4 +12,5 @@ import java.util.List;
 @ConfigurationProperties(prefix = "security.endpoints")
 public class EndpointsProperties {
     private List<String> publicEndpoints = new ArrayList<>();
+    private List<String> csrfDisabled = new ArrayList<>();
 }

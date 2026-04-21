@@ -1,10 +1,10 @@
 package dev.enco.webauth.backend.user.controller;
 
 import dev.enco.webauth.backend.auth.dto.ChangePasswordRequest;
-import dev.enco.webauth.backend.auth.dto.LogoutRequest;
 import dev.enco.webauth.backend.user.dto.ProfileResponse;
 import dev.enco.webauth.backend.auth.service.AuthService;
 import dev.enco.webauth.backend.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,18 +23,11 @@ public class UserController {
 
     @PostMapping("/change-password")
     public void changePassword(@RequestHeader("Authorization") String header,
-                               @RequestBody ChangePasswordRequest request) {
+                               @Valid @RequestBody ChangePasswordRequest request) {
         authService.changePassword(extractToken(header), request);
     }
 
-    @PostMapping("/logout")
-    public void logout(@RequestBody LogoutRequest request,
-                       @RequestHeader("Authorization") String header) {
-        String accessToken = extractToken(header);
-        authService.logout(accessToken, request.refreshToken());
-    }
-
     private String extractToken(String header) {
-        return header.substring(7);
+        return header.substring(7).trim();
     }
 }

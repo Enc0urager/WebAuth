@@ -4,6 +4,7 @@ import dev.enco.webauth.backend.minecraft.filter.MinecraftFilter;
 import dev.enco.webauth.backend.security.filter.JwtAuthFilter;
 import dev.enco.webauth.backend.security.filter.RateLimitFilter;
 import dev.enco.webauth.backend.security.properties.EndpointsProperties;
+import dev.enco.webauth.backend.security.properties.RefreshCookieProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -23,13 +25,23 @@ public class SecurityConfig {
     private final RateLimitFilter rateLimitFilter;
     private final MinecraftFilter minecraftFilter;
     private final EndpointsProperties endpointsProperties;
+    private final RefreshCookieProperties refreshCookieProperties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         String[] publicEndpoints = endpointsProperties.getPublicEndpoints().toArray(String[]::new);
 
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookiePath(refreshCookieProperties.getPath());
+        csrfTokenRepository.setHeaderName(refreshCookieProperties.getHeaderName());
+
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(csrfTokenRepository)
+                        .ignoringRequestMatchers(
+                                endpointsProperties.getCsrfDisabled().toArray(String[]::new)
+                        )
+                )
                 .cors(cors -> {})
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -59,8 +59,9 @@ security:
     name: refreshToken
     secure: true
     same-site: Strict
-    path: /auth
+    path: /session
     ttl-seconds: 604800
+    header-name: X-CSRF-TOKEN
 
   cors:
     allowed-origins:
@@ -82,6 +83,7 @@ security:
       - Origin
       - Access-Control-Request-Method
       - Access-Control-Request-Headers
+      - X-CSRF-TOKEN
     exposed-headers:
       - Authorization
     allow-credentials: true
@@ -91,6 +93,15 @@ security:
     public:
       - /auth/**
       - /internal/minecraft/**
+      - /session/**
+    csrf-disabled:
+      - /session/csrf
+      - /auth/**
+      - /internal/minecraft/**
+      - /trusted-ips
+      - /trusted-ips/**
+      - /join-requests
+      - /join-requests/**
 
   brute-force:
     login:
@@ -130,7 +141,7 @@ security:
         limit: 10
         window-seconds: 300
 
-      - path: /auth/refresh
+      - path: /session/refresh
         methods: [ POST ]
         limit: 20
         window-seconds: 60
@@ -140,17 +151,17 @@ security:
         limit: 60
         window-seconds: 60
 
-      - path: /user/join-requests
+      - path: /join-requests
         methods: [ GET ]
         limit: 60
         window-seconds: 60
 
-      - path: /user/trusted-ips
+      - path: /trusted-ips
         methods: [ GET, POST ]
         limit: 30
         window-seconds: 60
 
-      - path: /user/trusted-ips/**
+      - path: /trusted-ips/**
         methods: [ DELETE ]
         limit: 30
         window-seconds: 60

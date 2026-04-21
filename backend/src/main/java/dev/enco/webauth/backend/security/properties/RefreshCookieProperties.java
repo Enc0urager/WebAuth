@@ -13,4 +13,5 @@ public class RefreshCookieProperties {
     private String sameSite;
     private String path;
     private long ttlSeconds;
+    private String headerName;
 }
