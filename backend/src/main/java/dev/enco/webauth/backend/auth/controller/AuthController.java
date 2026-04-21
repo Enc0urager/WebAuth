@@ -2,7 +2,10 @@ package dev.enco.webauth.backend.auth.controller;
 
 import dev.enco.webauth.backend.auth.dto.*;
 import dev.enco.webauth.backend.auth.service.AuthService;
+import dev.enco.webauth.backend.security.model.GeneratedTokens;
+import dev.enco.webauth.backend.security.service.RefreshCookieService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final RefreshCookieService refreshCookieService;
 
     @PostMapping("/register")
     public void register(@RequestBody RegisterRequest request) {
@@ -23,21 +27,31 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest request,
-                              HttpServletRequest httpRequest
+                              HttpServletRequest httpRequest,
+                              HttpServletResponse httpResponse
     ) {
-        return authService.login(request, httpRequest.getRemoteAddr());
+        GeneratedTokens tokens = authService.login(request, httpRequest.getRemoteAddr());
+        refreshCookieService.addRefreshCookie(httpResponse, tokens.refreshToken());
+        return new AuthResponse(tokens.accessToken());
     }
 
     @PostMapping("/verify")
     public AuthResponse verify(@RequestBody VerifyEmailRequest request,
-                               HttpServletRequest httpRequest
+                               HttpServletRequest httpRequest,
+                               HttpServletResponse httpResponse
     ) {
-        return authService.verifyEmail(request, httpRequest.getRemoteAddr());
+        GeneratedTokens tokens = authService.verifyEmail(request, httpRequest.getRemoteAddr());
+        refreshCookieService.addRefreshCookie(httpResponse, tokens.refreshToken());
+        return new AuthResponse(tokens.accessToken());
     }
 
     @PostMapping("/refresh")
-    public AuthResponse refresh(@RequestBody RefreshRequest request) {
-        return authService.refresh(request);
+    public AuthResponse refresh(@RequestBody RefreshRequest request,
+                                HttpServletResponse httpResponse
+    ) {
+        GeneratedTokens tokens = authService.refresh(request);
+        refreshCookieService.addRefreshCookie(httpResponse, tokens.refreshToken());
+        return new AuthResponse(tokens.accessToken());
     }
 
 }

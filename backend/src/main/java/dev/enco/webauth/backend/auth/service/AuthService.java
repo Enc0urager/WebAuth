@@ -2,6 +2,7 @@ package dev.enco.webauth.backend.auth.service;
 
 import dev.enco.webauth.backend.auth.dto.*;
 import dev.enco.webauth.backend.auth.exceptions.*;
+import dev.enco.webauth.backend.security.model.GeneratedTokens;
 import dev.enco.webauth.backend.security.service.*;
 import dev.enco.webauth.backend.shared.exception.UserNotFoundException;
 import dev.enco.webauth.backend.user.entity.User;
@@ -39,7 +40,7 @@ public class AuthService {
         emailService.sendVerificationEmail(user);
     }
 
-    public AuthResponse verifyEmail(VerifyEmailRequest request, String ipAddress) {
+    public GeneratedTokens verifyEmail(VerifyEmailRequest request, String ipAddress) {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new UserNotFoundException("Пользователь с указанным адресом почты не найден!"));
 
@@ -56,7 +57,7 @@ public class AuthService {
         return securityService.generateAuthTokens(user.getUsername());
     }
 
-    public AuthResponse login(LoginRequest request, String ipAddress) {
+    public GeneratedTokens login(LoginRequest request, String ipAddress) {
 
         User user = userRepository.findByUsername(request.username())
                 .orElseThrow(() -> {
@@ -80,7 +81,7 @@ public class AuthService {
         return securityService.generateAuthTokens(user.getUsername());
     }
 
-    public AuthResponse refresh(RefreshRequest request) {
+    public GeneratedTokens refresh(RefreshRequest request) {
         return securityService.refresh(request);
     }
 

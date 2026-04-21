@@ -55,6 +55,13 @@ security:
     ttl-seconds: 604800
     used-ttl-seconds: 604800
 
+  refresh-cookie:
+    name: refreshToken
+    secure: true
+    same-site: Strict
+    path: /auth
+    ttl-seconds: 604800
+
   cors:
     allowed-origins:
       - http://localhost:5173

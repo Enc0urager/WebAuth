@@ -1,7 +1,7 @@
 package dev.enco.webauth.backend.minecraft.service;
 
 import dev.enco.webauth.backend.minecraft.dto.CreateJoinRequest;
-import dev.enco.webauth.backend.minecraft.dto.CreateJoinRequestResponse;
+import dev.enco.webauth.backend.minecraft.dto.CreateJoinResponse;
 import dev.enco.webauth.backend.minecraft.dto.JoinRequestResponse;
 import dev.enco.webauth.backend.minecraft.entity.JoinRequest;
 import dev.enco.webauth.backend.minecraft.enums.JoinRequestStatus;
@@ -28,7 +28,7 @@ public class MinecraftService {
     private final UserRepository userRepository;
     private final JoinRequestEventPublisher eventPublisher;
 
-    public CreateJoinRequestResponse createJoinRequest(CreateJoinRequest request) {
+    public CreateJoinResponse createJoinRequest(CreateJoinRequest request) {
         User user = userRepository.findByUsername(request.username())
                 .orElseThrow(() -> new UserNotFoundException("Пользователь с указаным именем не найден!"));
 
@@ -44,7 +44,7 @@ public class MinecraftService {
 
         joinRequestRepository.save(joinRequest);
 
-        return new CreateJoinRequestResponse(
+        return new CreateJoinResponse(
                 joinRequest.getId(),
                 joinRequest.getStatus().name()
         );

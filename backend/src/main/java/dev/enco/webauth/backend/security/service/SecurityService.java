@@ -4,6 +4,7 @@ import dev.enco.webauth.backend.auth.dto.AuthResponse;
 import dev.enco.webauth.backend.auth.dto.RefreshRequest;
 import dev.enco.webauth.backend.auth.exceptions.IncorrectPasswordException;
 import dev.enco.webauth.backend.security.exception.InvalidRefreshTokenException;
+import dev.enco.webauth.backend.security.model.GeneratedTokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -31,14 +32,14 @@ public class SecurityService {
         }
     }
 
-    public AuthResponse generateAuthTokens(String username) {
+    public GeneratedTokens generateAuthTokens(String username) {
         String access = jwtService.generateAccessToken(username);
         String refresh = jwtService.generateRefreshToken(username);
         refreshTokenService.store(username, refresh);
-        return new AuthResponse(access, refresh);
+        return new GeneratedTokens(access, refresh);
     }
 
-    public AuthResponse refresh(RefreshRequest request) {
+    public GeneratedTokens refresh(RefreshRequest request) {
         String token = request.refreshToken();
         String username = refreshTokenService.validate(token);
 

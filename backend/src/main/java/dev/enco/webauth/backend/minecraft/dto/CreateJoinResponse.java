@@ -1,6 +1,6 @@
 package dev.enco.webauth.backend.minecraft.dto;
 
-public record CreateJoinRequestResponse(
+public record CreateJoinResponse(
         Long requestId,
         String status
 ) {}
