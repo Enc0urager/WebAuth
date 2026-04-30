@@ -1,10 +1,11 @@
 package dev.enco.webauth.backend.security.service;
 
-import dev.enco.webauth.backend.security.properties.BruteForceProperties;
 import dev.enco.webauth.backend.security.exception.AntiBruteforceException;
+import dev.enco.webauth.backend.security.properties.BruteForceProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
 import java.time.Duration;
 
 @Service

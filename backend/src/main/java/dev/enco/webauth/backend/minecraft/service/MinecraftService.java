@@ -5,13 +5,13 @@ import dev.enco.webauth.backend.minecraft.dto.CreateJoinResponse;
 import dev.enco.webauth.backend.minecraft.dto.JoinRequestResponse;
 import dev.enco.webauth.backend.minecraft.entity.JoinRequest;
 import dev.enco.webauth.backend.minecraft.enums.JoinRequestStatus;
-import dev.enco.webauth.backend.user.entity.User;
 import dev.enco.webauth.backend.minecraft.exception.JoinRequestNotFoundException;
-import dev.enco.webauth.backend.shared.exception.UserNotFoundException;
 import dev.enco.webauth.backend.minecraft.repository.JoinRequestRepository;
-import dev.enco.webauth.backend.trustedip.repository.TrustedIpRepository;
-import dev.enco.webauth.backend.user.repository.UserRepository;
 import dev.enco.webauth.backend.security.service.CurrentUserService;
+import dev.enco.webauth.backend.shared.exception.UserNotFoundException;
+import dev.enco.webauth.backend.trustedip.repository.TrustedIpRepository;
+import dev.enco.webauth.backend.user.entity.User;
+import dev.enco.webauth.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

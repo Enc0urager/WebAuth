@@ -1,12 +1,12 @@
 package dev.enco.webauth.backend.trustedip.service;
 
+import dev.enco.webauth.backend.security.service.CurrentUserService;
 import dev.enco.webauth.backend.trustedip.dto.AddTrustedIpRequest;
 import dev.enco.webauth.backend.trustedip.dto.TrustedIpResponse;
 import dev.enco.webauth.backend.trustedip.entity.TrustedIp;
 import dev.enco.webauth.backend.trustedip.exception.TrustedIpNotFoundException;
-import dev.enco.webauth.backend.user.entity.User;
 import dev.enco.webauth.backend.trustedip.repository.TrustedIpRepository;
-import dev.enco.webauth.backend.security.service.CurrentUserService;
+import dev.enco.webauth.backend.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

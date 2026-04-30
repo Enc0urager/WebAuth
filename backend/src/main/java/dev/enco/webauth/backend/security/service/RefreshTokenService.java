@@ -1,7 +1,7 @@
 package dev.enco.webauth.backend.security.service;
 
-import dev.enco.webauth.backend.security.properties.RefreshCookieProperties;
 import dev.enco.webauth.backend.security.exception.UsedTokenException;
+import dev.enco.webauth.backend.security.properties.RefreshCookieProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

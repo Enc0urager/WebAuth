@@ -1,8 +1,8 @@
 package dev.enco.webauth.backend.user.controller;
 
 import dev.enco.webauth.backend.auth.dto.ChangePasswordRequest;
-import dev.enco.webauth.backend.user.dto.ProfileResponse;
 import dev.enco.webauth.backend.auth.service.AuthService;
+import dev.enco.webauth.backend.user.dto.ProfileResponse;
 import dev.enco.webauth.backend.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -18,13 +18,13 @@ public class JoinRequestController {
         return minecraftService.getPendingJoinRequests(extractToken(header));
     }
 
-    @PostMapping("/join-requests/{id}/approve")
+    @PostMapping("/{id}/approve")
     public void approveJoinRequest(@RequestHeader("Authorization") String header,
                                    @PathVariable Long id) {
         minecraftService.approveJoinRequest(extractToken(header), id);
     }
 
-    @PostMapping("/join-requests/{id}/decline")
+    @PostMapping("/{id}/decline")
     public void declineJoinRequest(@RequestHeader("Authorization") String header,
                                    @PathVariable Long id) {
         minecraftService.declineJoinRequest(extractToken(header), id);

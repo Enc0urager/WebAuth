@@ -1,9 +1,14 @@
 package dev.enco.webauth.backend.auth.service;
 
-import dev.enco.webauth.backend.auth.dto.*;
+import dev.enco.webauth.backend.auth.dto.ChangePasswordRequest;
+import dev.enco.webauth.backend.auth.dto.LoginRequest;
+import dev.enco.webauth.backend.auth.dto.RegisterRequest;
+import dev.enco.webauth.backend.auth.dto.VerifyEmailRequest;
 import dev.enco.webauth.backend.auth.exceptions.*;
 import dev.enco.webauth.backend.security.model.GeneratedTokens;
-import dev.enco.webauth.backend.security.service.*;
+import dev.enco.webauth.backend.security.service.BruteForceService;
+import dev.enco.webauth.backend.security.service.CurrentUserService;
+import dev.enco.webauth.backend.security.service.SecurityService;
 import dev.enco.webauth.backend.shared.exception.UserNotFoundException;
 import dev.enco.webauth.backend.user.entity.User;
 import dev.enco.webauth.backend.user.repository.UserRepository;

@@ -1,4 +1,33 @@
 spring:
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: your-client-id
+            client-secret: your-secret
+            scope:
+              - openid
+              - email
+              - profile
+
+          discord:
+            client-id: your-client-id
+            client-secret: your-secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - identify
+              - email
+
+        provider:
+          discord:
+            authorization-uri: https://discord.com/oauth2/authorize
+            token-uri: https://discord.com/api/oauth2/token
+            user-info-uri: https://discord.com/api/users/@me
+            user-name-attribute: id
+
   mail:
     host: localhost
     port: 1025
@@ -70,6 +99,7 @@ security:
       - http://localhost:8080
       - http://127.0.0.1:5173
       - http://198.18.0.1:5173
+      - http://192.168.68.109:5173
     allowed-methods:
       - GET
       - POST
@@ -90,10 +120,17 @@ security:
     max-age: 3600
 
   endpoints:
-    public:
+    public-endpoints:
       - /auth/**
       - /internal/minecraft/**
       - /session/**
+      - /oauth/**
+      - /oauth2/**
+      - /login/oauth2/**
+      - /swagger-ui/**
+      - /swagger-ui.html
+      - /v3/api-docs/**
+      - /v3/api-docs
     csrf-disabled:
       - /session/csrf
       - /auth/**
@@ -102,6 +139,9 @@ security:
       - /trusted-ips/**
       - /join-requests
       - /join-requests/**
+      - /oauth/**
+      - /oauth2/**
+      - /login/oauth2/**
 
   brute-force:
     login:
@@ -167,6 +207,12 @@ security:
         window-seconds: 60
 
 app:
+  oauth2:
+    success-url: http://localhost:5173/oauth/callback
+    signup-url: http://localhost:5173/oauth/callback
+    error-url: http://localhost:5173/oauth/callback
+    pending-signup-ttl-seconds: 600
+
   email:
     from: "no-reply@your-company.com"
     subject: "Код для верификации"

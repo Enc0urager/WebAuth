@@ -1,7 +1,7 @@
 package dev.enco.webauth.backend.security.service;
 
-import dev.enco.webauth.backend.user.entity.User;
 import dev.enco.webauth.backend.shared.exception.UserNotFoundException;
+import dev.enco.webauth.backend.user.entity.User;
 import dev.enco.webauth.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jwt.Jwt;

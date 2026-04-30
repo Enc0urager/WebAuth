@@ -1,6 +1,9 @@
 package dev.enco.webauth.backend.auth.controller;
 
-import dev.enco.webauth.backend.auth.dto.*;
+import dev.enco.webauth.backend.auth.dto.AuthResponse;
+import dev.enco.webauth.backend.auth.dto.LoginRequest;
+import dev.enco.webauth.backend.auth.dto.RegisterRequest;
+import dev.enco.webauth.backend.auth.dto.VerifyEmailRequest;
 import dev.enco.webauth.backend.auth.service.AuthService;
 import dev.enco.webauth.backend.security.model.GeneratedTokens;
 import dev.enco.webauth.backend.security.service.RefreshCookieService;
